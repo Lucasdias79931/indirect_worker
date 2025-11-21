@@ -29,7 +29,7 @@ except Exception as e:
     exit(1)
 
 host = "localhost"
-port = 50052
+port = 50051
 channel = grpc.insecure_channel(f"{host}:{port}")
 stub = bioSequencesService_pb2_grpc.biosequenceservicesStub(channel)
 
@@ -92,7 +92,9 @@ try:
     #
     request = bioSequencesService_pb2.Dataset(
         dataset_id_process="teste01",
-        status_dataset=bioSequencesService_pb2.StatusDataset.state_origin
+        status_dataset=bioSequencesService_pb2.StatusDataset.state_origin,
+
+        remove_dataset=True
     )
 
     response = stub.getDataset(request)
@@ -110,7 +112,9 @@ try:
     #
     request = bioSequencesService_pb2.Dataset(
         dataset_id_process="teste01",
-        status_dataset=bioSequencesService_pb2.StatusDataset.state_transformed_to_codon
+        status_dataset=bioSequencesService_pb2.StatusDataset.state_transformed_to_codon,
+
+        remove_dataset=False
     )
 
     response = stub.getDataset(request)
@@ -132,7 +136,9 @@ try:
     #
     request = bioSequencesService_pb2.Dataset(
         dataset_id_process="teste01",
-        status_dataset=bioSequencesService_pb2.StatusDataset.state_protein
+        status_dataset=bioSequencesService_pb2.StatusDataset.state_protein,
+
+        remove_dataset=False
     )
 
     response = stub.getDataset(request)

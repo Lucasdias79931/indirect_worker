@@ -3,7 +3,7 @@ import grpc
 from bio_sequence_services import bioSequencesService_pb2, bioSequencesService_pb2_grpc
 from src.bio_processor import BIO_Processor
 from src.process_protoburf_file import processProtobufFile
-
+from threading import Lock
 
 class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
 
@@ -17,7 +17,7 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
             bioSequencesService_pb2.StatusDataset.state_transformed_to_codon: "state_transformed_to_codon",
             bioSequencesService_pb2.StatusDataset.state_protein: "state_protein"
         }
-
+        self.lock = Lock()
         super().__init__()
 
     def receive_sequeces(self, request, context):
@@ -55,6 +55,7 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
 
 
             processProtobufFile.save_object_protobuf(
+                    lock=self.lock,
                     destine_file=filepath,
                     protobuf_obj=sequence_pb
                 )
@@ -90,6 +91,7 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
                 )
 
             sequence_pb = processProtobufFile.load_object_protobuf(
+                lock=self.lock,
                 file_path=nucleotides_sequences_path,
                 protobuf_class=bioSequencesService_pb2.StoreNucleotid_processeSequences
             )
@@ -110,6 +112,7 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
             filepath = os.path.join(dest_dir, "numeric_codons_sequences.pb")
 
             processProtobufFile.save_object_protobuf(
+                lock=self.lock,
                 destine_file=filepath,
                 protobuf_obj=numeric_codons_seq_pb
             )
@@ -145,6 +148,7 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
                 )
 
             sequence_pb = processProtobufFile.load_object_protobuf(
+                lock=self.lock,
                 file_path=nucleotides_sequences_path,
                 protobuf_class=bioSequencesService_pb2.StoreNucleotid_processeSequences
             )
@@ -164,6 +168,7 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
             filepath = os.path.join(dest_dir, "proteinSequences.pb")
 
             processProtobufFile.save_object_protobuf(
+                lock=self.lock,
                 destine_file=filepath,
                 protobuf_obj=protein_pb
             )
@@ -216,12 +221,17 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
             response.status_dataset = state
             response.status = True
             response.msg = "Dataset loaded successfully"
-            remove_dataset = response.remove_dataset
-            response.dataset.CopyFrom(
-                self.get_dataset_response(id_process=id_process, state=state_str, remove_dataset=remove_dataset)
-            )
+
+            remove_dataset = request.remove_dataset
+            
+            if remove_dataset is None:
+                remove_dataset = False    
 
             
+            response.dataset.CopyFrom(
+                self.get_dataset_response(id_process=id_process, state=state_str, remove_dataset = remove_dataset)
+            )
+
             return response
 
 
@@ -238,13 +248,14 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
                     msg=f"Internal error: {error}"
                 )
     
-    def remove_dataset(self, filePath:str)->None:
+    def remove_Dataset(self, filepath):
         try:
-            os.remove(filePath)
-            
-        except OSError as e:
-            raise e
-    def get_dataset_response(self, id_process: str, state: str, remove_dataset=False):
+            os.remove(filepath)
+        except OSError as error:
+            raise error
+        except Exception as error:
+            raise error
+    def get_dataset_response(self, id_process: str, state: str, remove_dataset:bool =False):
         try:
 
             """
@@ -256,7 +267,7 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
                 - "state_protein" : returns protein sequences
             """
 
-           
+            
 
             dataset_dir = os.path.join(self.database_base_path, id_process)
 
@@ -271,15 +282,14 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
                 )
 
                 sequence_pb = processProtobufFile.load_object_protobuf(
+                    lock=self.lock,
                     file_path=nucleotides_sequences_path,
                     protobuf_class=bioSequencesService_pb2.StoreNucleotid_processeSequences
                 )
-                
 
                 dataset.nucleotid_processes_sequences.CopyFrom(sequence_pb)
                 if remove_dataset:
-                    
-                    self.remove_dataset(nucleotides_sequences_path)
+                    self.remove_Dataset(nucleotides_sequences_path)
             elif state == 'state_transformed_to_codon':
                 codons_sequences_path = os.path.join(
                     dataset_dir,
@@ -288,16 +298,14 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
                 )
 
                 codons_pb = processProtobufFile.load_object_protobuf(
+                    lock=self.lock,
                     file_path=codons_sequences_path,
                     protobuf_class=bioSequencesService_pb2.NumericCodonsSequence
                 )
 
                 dataset.codo_sequences.CopyFrom(codons_pb)
-                
-
                 if remove_dataset:
-                    
-                    self.remove_dataset(codons_sequences_path)
+                    self.remove_Dataset(codons_sequences_path)
             elif state == 'state_protein':
                 protein_sequences_path = os.path.join(
                     dataset_dir,
@@ -306,15 +314,14 @@ class BIO_TRANSFORM(bioSequencesService_pb2_grpc.biosequenceservicesServicer):
                 )
 
                 protein_pb = processProtobufFile.load_object_protobuf(
+                    lock=self.lock,
                     file_path=protein_sequences_path,
                     protobuf_class=bioSequencesService_pb2.Protein
                 )
 
                 dataset.proteins.append(protein_pb)
                 if remove_dataset:
-                    
-                    self.remove_dataset(protein_sequences_path)
-                
+                    self.remove_Dataset(protein_sequences_path)
             return dataset
 
 
