@@ -53,6 +53,7 @@ message traductionToProtein{
 message Dataset{
     string dataset_id_process = 1;
     StatusDataset status_dataset = 2;
+    bool remove_dataset = 3;
 }
 
 // Response messages
@@ -94,5 +95,4 @@ service biosequenceservices {
     rpc nucleotid_processesToCodons(TransformFromNucleotid_processesToCodons) returns (ResponseTransformNToC);
     rpc codonToProtain(traductionToProtein) returns (ResponsetraductionToProtein);
     rpc getDataset(Dataset) returns (ResponsegetDataset);
-
 }

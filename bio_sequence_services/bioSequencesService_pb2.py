@@ -24,15 +24,15 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19\x62ioSequencesService.proto\x12\x15\x62io_sequence_services\".\n\x07Protein\x12\x12\n\nid_process\x18\x01 \x01(\t\x12\x0f\n\x07protein\x18\x02 \x03(\t\"\'\n\rNumericCodons\x12\x16\n\x0e\x63odon_sequence\x18\x01 \x03(\r\"d\n\x15NumericCodonsSequence\x12\x12\n\nid_process\x18\x01 \x01(\t\x12\x37\n\tsequences\x18\x02 \x03(\x0b\x32$.bio_sequence_services.NumericCodons\".\n\x1aNucleotid_processeSequence\x12\x10\n\x08sequence\x18\x01 \x01(\t\"Q\n StoreNucleotid_processeSequences\x12\x11\n\tsequences\x18\x01 \x03(\t\x12\x1a\n\x12\x64\x61taset_id_process\x18\x02 \x01(\t\"F\n(TransformFromNucleotid_processesToCodons\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\"1\n\x13traductionToProtein\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\"c\n\x07\x44\x61taset\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\x12<\n\x0estatus_dataset\x18\x02 \x01(\x0e\x32$.bio_sequence_services.StatusDataset\",\n\rResponseStore\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0b\n\x03msg\x18\x02 \x01(\t\"4\n\x15ResponseTransformNToC\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0b\n\x03msg\x18\x02 \x01(\t\":\n\x1bResponsetraductionToProtein\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0b\n\x03msg\x18\x02 \x01(\t\"\xea\x01\n\x10\x44\x61taset_response\x12^\n\x1dnucleotid_processes_sequences\x18\x01 \x01(\x0b\x32\x37.bio_sequence_services.StoreNucleotid_processeSequences\x12\x44\n\x0e\x63odo_sequences\x18\x02 \x01(\x0b\x32,.bio_sequence_services.NumericCodonsSequence\x12\x30\n\x08proteins\x18\x03 \x03(\x0b\x32\x1e.bio_sequence_services.Protein\"\xc5\x01\n\x12ResponsegetDataset\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\x12<\n\x0estatus_dataset\x18\x02 \x01(\x0e\x32$.bio_sequence_services.StatusDataset\x12\x38\n\x07\x64\x61taset\x18\x03 \x01(\x0b\x32\'.bio_sequence_services.Dataset_response\x12\x0e\n\x06status\x18\x04 \x01(\x08\x12\x0b\n\x03msg\x18\x05 \x01(\t*T\n\rStatusDataset\x12\x10\n\x0cstate_origin\x10\x00\x12\x1e\n\x1astate_transformed_to_codon\x10\x01\x12\x11\n\rstate_protein\x10\x02\x32\xe2\x03\n\x13\x62iosequenceservices\x12q\n\x10receive_sequeces\x12\x37.bio_sequence_services.StoreNucleotid_processeSequences\x1a$.bio_sequence_services.ResponseStore\x12\x8c\x01\n\x1bnucleotid_processesToCodons\x12?.bio_sequence_services.TransformFromNucleotid_processesToCodons\x1a,.bio_sequence_services.ResponseTransformNToC\x12p\n\x0e\x63odonToProtain\x12*.bio_sequence_services.traductionToProtein\x1a\x32.bio_sequence_services.ResponsetraductionToProtein\x12W\n\ngetDataset\x12\x1e.bio_sequence_services.Dataset\x1a).bio_sequence_services.ResponsegetDatasetb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19\x62ioSequencesService.proto\x12\x15\x62io_sequence_services\".\n\x07Protein\x12\x12\n\nid_process\x18\x01 \x01(\t\x12\x0f\n\x07protein\x18\x02 \x03(\t\"\'\n\rNumericCodons\x12\x16\n\x0e\x63odon_sequence\x18\x01 \x03(\r\"d\n\x15NumericCodonsSequence\x12\x12\n\nid_process\x18\x01 \x01(\t\x12\x37\n\tsequences\x18\x02 \x03(\x0b\x32$.bio_sequence_services.NumericCodons\".\n\x1aNucleotid_processeSequence\x12\x10\n\x08sequence\x18\x01 \x01(\t\"Q\n StoreNucleotid_processeSequences\x12\x11\n\tsequences\x18\x01 \x03(\t\x12\x1a\n\x12\x64\x61taset_id_process\x18\x02 \x01(\t\"F\n(TransformFromNucleotid_processesToCodons\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\"1\n\x13traductionToProtein\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\"{\n\x07\x44\x61taset\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\x12<\n\x0estatus_dataset\x18\x02 \x01(\x0e\x32$.bio_sequence_services.StatusDataset\x12\x16\n\x0eremove_dataset\x18\x03 \x01(\x08\",\n\rResponseStore\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0b\n\x03msg\x18\x02 \x01(\t\"4\n\x15ResponseTransformNToC\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0b\n\x03msg\x18\x02 \x01(\t\":\n\x1bResponsetraductionToProtein\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0b\n\x03msg\x18\x02 \x01(\t\"\xea\x01\n\x10\x44\x61taset_response\x12^\n\x1dnucleotid_processes_sequences\x18\x01 \x01(\x0b\x32\x37.bio_sequence_services.StoreNucleotid_processeSequences\x12\x44\n\x0e\x63odo_sequences\x18\x02 \x01(\x0b\x32,.bio_sequence_services.NumericCodonsSequence\x12\x30\n\x08proteins\x18\x03 \x03(\x0b\x32\x1e.bio_sequence_services.Protein\"\xc5\x01\n\x12ResponsegetDataset\x12\x1a\n\x12\x64\x61taset_id_process\x18\x01 \x01(\t\x12<\n\x0estatus_dataset\x18\x02 \x01(\x0e\x32$.bio_sequence_services.StatusDataset\x12\x38\n\x07\x64\x61taset\x18\x03 \x01(\x0b\x32\'.bio_sequence_services.Dataset_response\x12\x0e\n\x06status\x18\x04 \x01(\x08\x12\x0b\n\x03msg\x18\x05 \x01(\t*T\n\rStatusDataset\x12\x10\n\x0cstate_origin\x10\x00\x12\x1e\n\x1astate_transformed_to_codon\x10\x01\x12\x11\n\rstate_protein\x10\x02\x32\xe2\x03\n\x13\x62iosequenceservices\x12q\n\x10receive_sequeces\x12\x37.bio_sequence_services.StoreNucleotid_processeSequences\x1a$.bio_sequence_services.ResponseStore\x12\x8c\x01\n\x1bnucleotid_processesToCodons\x12?.bio_sequence_services.TransformFromNucleotid_processesToCodons\x1a,.bio_sequence_services.ResponseTransformNToC\x12p\n\x0e\x63odonToProtain\x12*.bio_sequence_services.traductionToProtein\x1a\x32.bio_sequence_services.ResponsetraductionToProtein\x12W\n\ngetDataset\x12\x1e.bio_sequence_services.Dataset\x1a).bio_sequence_services.ResponsegetDatasetb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'bioSequencesService_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_STATUSDATASET']._serialized_start=1195
-  _globals['_STATUSDATASET']._serialized_end=1279
+  _globals['_STATUSDATASET']._serialized_start=1219
+  _globals['_STATUSDATASET']._serialized_end=1303
   _globals['_PROTEIN']._serialized_start=52
   _globals['_PROTEIN']._serialized_end=98
   _globals['_NUMERICCODONS']._serialized_start=100
@@ -48,17 +48,17 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_TRADUCTIONTOPROTEIN']._serialized_start=446
   _globals['_TRADUCTIONTOPROTEIN']._serialized_end=495
   _globals['_DATASET']._serialized_start=497
-  _globals['_DATASET']._serialized_end=596
-  _globals['_RESPONSESTORE']._serialized_start=598
-  _globals['_RESPONSESTORE']._serialized_end=642
-  _globals['_RESPONSETRANSFORMNTOC']._serialized_start=644
-  _globals['_RESPONSETRANSFORMNTOC']._serialized_end=696
-  _globals['_RESPONSETRADUCTIONTOPROTEIN']._serialized_start=698
-  _globals['_RESPONSETRADUCTIONTOPROTEIN']._serialized_end=756
-  _globals['_DATASET_RESPONSE']._serialized_start=759
-  _globals['_DATASET_RESPONSE']._serialized_end=993
-  _globals['_RESPONSEGETDATASET']._serialized_start=996
-  _globals['_RESPONSEGETDATASET']._serialized_end=1193
-  _globals['_BIOSEQUENCESERVICES']._serialized_start=1282
-  _globals['_BIOSEQUENCESERVICES']._serialized_end=1764
+  _globals['_DATASET']._serialized_end=620
+  _globals['_RESPONSESTORE']._serialized_start=622
+  _globals['_RESPONSESTORE']._serialized_end=666
+  _globals['_RESPONSETRANSFORMNTOC']._serialized_start=668
+  _globals['_RESPONSETRANSFORMNTOC']._serialized_end=720
+  _globals['_RESPONSETRADUCTIONTOPROTEIN']._serialized_start=722
+  _globals['_RESPONSETRADUCTIONTOPROTEIN']._serialized_end=780
+  _globals['_DATASET_RESPONSE']._serialized_start=783
+  _globals['_DATASET_RESPONSE']._serialized_end=1017
+  _globals['_RESPONSEGETDATASET']._serialized_start=1020
+  _globals['_RESPONSEGETDATASET']._serialized_end=1217
+  _globals['_BIOSEQUENCESERVICES']._serialized_start=1306
+  _globals['_BIOSEQUENCESERVICES']._serialized_end=1788
 # @@protoc_insertion_point(module_scope)
