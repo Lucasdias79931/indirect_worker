@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package bio_sequence_services;
+
+// Data type definitions
+
+
+enum StatusDataset{
+
+    state_origin = 0;
+    state_transformed_to_codon = 1;
+    state_protein = 2;
+}
+
+message Protein{
+    string id_process = 1;
+    repeated string protein = 2;
+}
+
+message NumericCodons {
+    repeated uint32 codon_sequence = 1;
+}
+
+
+message NumericCodonsSequence {
+    string id_process = 1;
+    repeated NumericCodons sequences = 2;  // várias sequências
+}
+
+
+
+message Nucleotid_processeSequence {
+    string sequence = 1;
+}
+
+
+// Request messages
+
+message StoreNucleotid_processeSequences {
+    repeated string sequences = 1;
+    string dataset_id_process = 2;
+}
+
+message TransformFromNucleotid_processesToCodons {
+    string dataset_id_process = 1;
+}
+
+message traductionToProtein{
+    string dataset_id_process = 1;
+    
+}
+
+message Dataset{
+    string dataset_id_process = 1;
+    StatusDataset status_dataset = 2;
+}
+
+// Response messages
+
+message ResponseStore {
+    bool status = 1;
+    string msg = 2;
+}
+
+message ResponseTransformNToC {
+    bool status = 1;
+    string msg = 2;
+}
+
+message ResponsetraductionToProtein{
+    bool status = 1;
+    string msg = 2;
+}
+
+message Dataset_response{
+    StoreNucleotid_processeSequences nucleotid_processes_sequences = 1; // if id_process = state_origin
+    NumericCodonsSequence codo_sequences = 2; // if id_process = state_transformad_to_codon
+    repeated Protein proteins = 3; // if id_process = state_protein
+}
+message ResponsegetDataset{
+    string dataset_id_process = 1;
+    StatusDataset status_dataset = 2;
+    Dataset_response dataset = 3;
+    bool status = 4;
+    string msg = 5;
+}
+
+
+
+
+// service to expose a remote method
+service biosequenceservices {
+    rpc receive_sequeces(StoreNucleotid_processeSequences) returns (ResponseStore);
+    rpc nucleotid_processesToCodons(TransformFromNucleotid_processesToCodons) returns (ResponseTransformNToC);
+    rpc codonToProtain(traductionToProtein) returns (ResponsetraductionToProtein);
+    rpc getDataset(Dataset) returns (ResponsegetDataset);
+
+}
